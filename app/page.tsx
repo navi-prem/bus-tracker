@@ -1,28 +1,53 @@
 'use client'
+import Notification from "@/components/Notification"
 import axios from "axios"
-import {useState} from "react"
+import {useEffect, useState} from "react"
 
 const Home = () => {
 
     const [reg, setReg] = useState('')
     const [pass, setPass] = useState('')
+    const[data,setData] = useState('')
+    const[status,setStatus] = useState('')
+    const[notify,setNotify] = useState(false)
+
+    useEffect(()=>{
+        setTimeout(()=>{
+            setNotify(false)
+        },2000)
+    },[notify])
 
     const handleLogin = async (e:any) => {
         e.preventDefault()
-        const { data } = await axios.post('/api', { reg, pass })
-        console.log(data)
-        if ( data.status == '0' ) {
-            console.log('pass inc')
-        }
-        else if ( data.status == '1' ) {
-            console.log('Success')
-        }
-        else {
-            console.log('user inc')
+
+        if((reg==="")||(pass==="")){
+                setData("Fill the credentials")
+                setStatus("error")
+                setNotify(true)
+        }else{
+            const { data } = await axios.post('/api', { reg, pass })
+            console.log(data)
+            if ( data.status == '0' ) {
+                setData("Password incorrect")
+                setStatus("error")
+                setNotify(true)
+            }
+            else if ( data.status == '1' ) {
+                setData("Logged In sucessfully")
+                setStatus("sucess")
+                setNotify(true)
+            }
+            else {
+                setData("User Unavailable")
+                setStatus("error")
+                setNotify(true)
+            }
         }
     }
 
     return (
+        <>
+        {notify && <Notification status={status} data={data} />}
         <div className="flex items-center justify-center w-full h-full">
             <form onSubmit={handleLogin} className="border-2 border-black rounded-md p-4 h-[65%] w-[25%] flex items-center justify-center">
                 <div>
@@ -36,6 +61,7 @@ const Home = () => {
                 </div>
             </form>
         </div>
+        </>
     )
 }
 
