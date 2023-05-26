@@ -10,4 +10,7 @@ datasource db {
 model user {
     reg String @id
     pass String
+    name String?
+    branch String?
+    location String?
 }
