@@ -1,30 +1,18 @@
-'use client'
+"use client"
 import axios from "axios"
-import {signIn, useSession} from "next-auth/react"
-import {useEffect, useState} from "react"
-import { usePathname, useRouter } from "next/navigation"
+import {useState} from "react"
 
 const Home = () => {
-    const pathname = usePathname()
-    const router = useRouter()
-
-    const { data: session } = useSession({
-        required: true,
-        onUnauthenticated() {
-            router.push(`auth/signin?callbackUrl=${encodeURIComponent(pathname)}`)
-        }
-    })
-
-    console.log(session)
-
+ 
     const[name,setName] = useState("")
     const[branch,setBranch] = useState("")
     const[location,setLocation] = useState("")
 
     const submit =  async (e) => {
         e.preventDefault()
+        const reg = localStorage.getItem("user")
         const {data} = await axios.post('/api/details',{
-            reg: session.user?.name, name, branch, location
+                        reg,name,branch,location
         })
         console.log(data)
         setName("")
@@ -54,4 +42,4 @@ const Home = () => {
     </>)
 }
 
-export default Home
+export default Home;
