@@ -8,9 +8,24 @@ datasource db {
 }
 
 model user {
-  pass     String
   reg      String  @id
+  pass     String
   branch   String?
   location String?
   name     String?
+  busId    Int?
+  stop     Int?
+}
+
+model bus {
+  route Int @id
+  driver String?
+  stops stop[]
+}
+
+model stop {
+  id Int @id
+  Bus bus @relation(fields:[busId], references:[route])
+  busId Int
+  coords Json
 }

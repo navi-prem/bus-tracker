@@ -8,12 +8,15 @@ const Home = () => {
     const pathname = usePathname()
     const router = useRouter()
 
-    const { data: session } = useSession({
+    const { data: session, status } = useSession({
         required: true,
         onUnauthenticated() {
             router.push(`auth/signin?callbackUrl=${encodeURIComponent(pathname)}`)
         }
     })
+
+    useEffect(() => {
+    }, [status])
 
     console.log(session)
 
