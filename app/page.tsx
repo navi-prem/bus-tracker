@@ -1,6 +1,6 @@
 'use client'
 import axios from "axios"
-import {signIn, useSession} from "next-auth/react"
+import {signOut, useSession} from "next-auth/react"
 import {useEffect, useState} from "react"
 import { usePathname, useRouter } from "next/navigation"
 
@@ -53,6 +53,7 @@ const Home = () => {
             <br/>
             <button type="submit" className="w-24 px-3 py-1 mt-2 font-bold text-black bg-transparent border-2 border-black transition-all rounded-md hover:bg-black hover:text-white">Submit</button>
         </form>
+        <button onClick={()=>signOut()}>Logout</button>
         </div>
     </>)
 }
