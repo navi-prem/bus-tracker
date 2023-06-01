@@ -1,25 +1,16 @@
-'use client'
-import axios from "axios"
-import {usePathname} from "next/navigation"
-import {useEffect, useState} from "react"
+import {prisma} from "@/prisma/prisma"
+import {NextRequest} from "next/server"
 
-const No = () => {
-    const pathname = usePathname()
-    const no = pathname.slice(8)
-    const [data, setData] = useState([])
-
-    useEffect(() => {
-        const get = async () => {
-            const { data } = await axios.get('/api/routes', {
-                params: {
-                    no
-                }
-            })
-            setData(data)
-        }
-        get()
-    }, [])
-
+const No =  async (req: NextRequest) => {
+    const route = parseInt(req.params.no)
+    const data = await prisma.bus.findUnique({
+        where: {
+            route,
+        },
+        include: {
+            stops: true,
+        },
+    })
     return <>{JSON.stringify(data)}</>
 }
 
