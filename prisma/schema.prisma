@@ -8,24 +8,33 @@ datasource db {
 }
 
 model user {
-  reg      String  @id
-  pass     String
-  branch   String?
-  location String?
-  name     String?
-  busId    Int?
-  stop     Int?
+  reg String @id
+  pass String
+  name String?
+  branch String?
+  year Int?
+  gender String?
+  phNo String?
+  Bus bus @relation(fields:[routeNo], references:[route])
+  routeNo Int
+  Stop stop @relation(fields: [point],references: [name])
+  point String
 }
 
 model bus {
+  name String @unique
   route Int @id
-  driver String?
+  driver String
+  vechileNo String
+  capacity Int
+  strength Int
   stops stop[]
+  user user[]
 }
 
 model stop {
-  id Int @id
+  name String @id
   Bus bus @relation(fields:[busId], references:[route])
   busId Int
-  coords Json
+  user user[]
 }
