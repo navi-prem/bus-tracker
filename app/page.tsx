@@ -3,6 +3,7 @@ import axios from "axios"
 import {signOut, useSession} from "next-auth/react"
 import {useEffect, useState} from "react"
 import { usePathname, useRouter } from "next/navigation"
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const Home = () => {
     const pathname = usePathname()
@@ -34,24 +35,36 @@ const Home = () => {
     }
 
     return(<>
-
+        <span className="fixed top-0 right-0 m-5 text-white">
+        <button onClick={()=>signOut()}>
+            <LogoutIcon/>
+        </button>
+        </span>
         <div className="flex items-center justify-center w-[100vw] h-[100vh]">
-        <form className="p-5 border shadow-md rounded-md" onSubmit={(e)=>submit(e)}>
-            <label> Name <br/>
-                <input className="h-8 p-2 my-2 border border-black rounded" onChange={(e)=>{setName(e.target.value)}} value={name}/>
+        <form className="p-5" onSubmit={(e)=>submit(e)}>
+            <label className="text-[0.9rem] text-[#b6b3b1]"> Name <br/>
+                <input className="my-3 text-[1 rem] h-10 w-96 text-white border border-[#3e3e3e] rounded bg-[#222222] placeholder:text-[#504e4b] p-2"
+                onChange={(e)=>{setName(e.target.value)}}
+                placeholder="Your Name"
+                value={name}/>
                 <br/>
-            </label>
-            <label> Branch<br/>
-                <input className="h-8 p-2 my-2 border border-black rounded" onChange={(e)=>{setBranch(e.target.value)}} value={branch}/>
+            </label >
+            <label className="text-[0.9rem] text-[#b6b3b1]"> Branch<br/>
+                <input
+                placeholder="Your Branch"
+                className="my-3 text-[1 rem] h-10 w-96 text-white border border-[#3e3e3e] rounded bg-[#222222] placeholder:text-[#504e4b] p-2" 
+                onChange={(e)=>{setBranch(e.target.value)}} value={branch}/>
             </label>
             <br/>
-            <label> Location<br/>
-                <textarea className="h-24 p-2 my-2 border border-black rounded" onChange={(e)=>{setLocation(e.target.value)}} value={location}/>
+            <label className="text-[0.9rem] text-[#b6b3b1]"> Location<br/>
+                <textarea
+                placeholder="Your location goes here"
+                className="my-3 text-[1 rem] h-40 w-96 text-white border border-[#3e3e3e] rounded bg-[#222222] placeholder:text-[#504e4b] p-2"
+                onChange={(e)=>{setLocation(e.target.value)}} value={location}/>
             </label>
             <br/>
-            <button type="submit" className="w-24 px-3 py-1 mt-2 font-bold text-black bg-transparent border-2 border-black transition-all rounded-md hover:bg-black hover:text-white">Submit</button>
+            <button type="submit" className="px-3 py-2 w-96 text-white bg-[#2b825b] transition-all rounded-md hover:bg-[#40bf86] hover:text-white">Submit</button>
         </form>
-        <button onClick={()=>signOut()}>Logout</button>
         </div>
     </>)
 }

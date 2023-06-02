@@ -21,7 +21,11 @@ const No =  async (req: NextRequest, res:NextResponse) => {
     if ( session && session.user.name === '1' ) {
         data.user = await prisma.user.findMany()
     }
-    return <>{JSON.stringify(data)}</>
+    return <>
+        <div className="flex justify-center items-center w-[100vw] h-[100vh] text-white">
+            {JSON.stringify(data)}
+        </div>
+    </>
 }
 
 export default No
