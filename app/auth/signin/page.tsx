@@ -7,6 +7,7 @@ const Home = () => {
     const searchParams = useSearchParams()
     const router = useRouter()
     const callbackUrl = searchParams.get('callbackUrl')
+    console.log(callbackUrl)
 
     const { data:session, status } = useSession()
     const [reg, setReg] = useState('')
@@ -23,7 +24,6 @@ const Home = () => {
         const res = await signIn('credentials', {
             reg, pass, redirect: false
         })
-        console.log(res)
     }
 
     return (

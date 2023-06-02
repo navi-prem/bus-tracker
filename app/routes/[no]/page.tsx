@@ -1,9 +1,15 @@
+import {authOptions} from "@/app/api/auth/[...nextauth]/route"
 import {prisma} from "@/prisma/prisma"
-import {NextRequest} from "next/server"
+import {getServerSession} from "next-auth"
+import {redirect} from "next/navigation"
+import {NextRequest, NextResponse} from "next/server"
 
-const No =  async (req: NextRequest) => {
+const No =  async (req: NextRequest, res:NextResponse) => {
+    const session = await getServerSession(authOptions)
     const route = parseInt(req.params.no)
-    const data = await prisma.bus.findUnique({
+    if ( !session ) redirect(`/auth/signin?callbackUrl=${encodeURIComponent(`routes/${route}`)}`)
+    let data = {}
+    data.bus = await prisma.bus.findUnique({
         where: {
             route,
         },
@@ -11,6 +17,9 @@ const No =  async (req: NextRequest) => {
             stops: true,
         },
     })
+    if ( session && session.user.name === '1' ) {
+        data.user = await prisma.user.findMany()
+    }
     return <>{JSON.stringify(data)}</>
 }
 

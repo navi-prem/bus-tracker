@@ -3,7 +3,10 @@ import NextAuth, { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import {NextRequest, NextResponse} from 'next/server'
 
-const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
+    session: {
+        strategy: 'jwt',
+    },
     providers: [
         CredentialsProvider({
             name: 'CREDENTIALS',
@@ -11,7 +14,6 @@ const authOptions: NextAuthOptions = {
             credentials: {},
             async authorize(credentials, req: NextRequest) {
                 const { reg, pass } = credentials
-                console.log(reg, pass)
                 const user = await prisma.user.findUnique({
                     where: {
                         reg,
