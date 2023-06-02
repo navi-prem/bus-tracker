@@ -18,8 +18,6 @@ const Home = () => {
     useEffect(() => {
     }, [status])
 
-    console.log(session)
-
     const[name,setName] = useState("")
     const[branch,setBranch] = useState("")
     const[location,setLocation] = useState("")
