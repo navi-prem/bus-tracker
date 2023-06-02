@@ -9,6 +9,7 @@ const No =  async (req: NextRequest) => {
         },
         include: {
             stops: true,
+            user : true
         },
     })
     return <>{JSON.stringify(data)}</>
