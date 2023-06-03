@@ -18,7 +18,7 @@ const Home = () => {
 
     useEffect(() => {
         if ( status === 'authenticated' ) {
-            router.push(callbackUrl || '/')
+            router.push(callbackUrl || '/routes')
         }
     }, [status])
 
@@ -72,7 +72,7 @@ const Home = () => {
                     </label>
                     <br/><br/>
                     <div><button type='submit'
-                        className="px-3 py-2 w-11/12 text-white bg-[#2b825b] transition-all rounded-md hover:bg-[#40bf86] hover:text-white flex justify-center items-center">
+                        className="px-3 py-2 w-11/12 text-black bg-[#e8bf07] transition-all rounded-md hover:bg-[#40bf86] hover:text-white flex justify-center items-center">
                         {loading ?
                             <div className="animate-spin inline-block w-6 h-6 border-[3px] border-current border-t-transparent text-white rounded-full">
                             <span className="sr-only">Loading...</span>

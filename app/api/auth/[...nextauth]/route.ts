@@ -12,7 +12,7 @@ export const authOptions: NextAuthOptions = {
             name: 'CREDENTIALS',
             type: 'credentials',
             credentials: {},
-            async authorize(credentials, req: NextRequest) {
+            async authorize (credentials, req: NextRequest) {
                 const { reg, pass } = credentials
                 const user = await prisma.user.findUnique({
                     where: {
@@ -21,9 +21,12 @@ export const authOptions: NextAuthOptions = {
                 })
                 if ( user === undefined || user === null ) {
                     throw new Error('Invalid User Name')
-                }
-                if ( user.pass !== pass ) {
+                }else if ( user.pass !== pass ) {
                     throw new Error('Invalid Password')
+                }else{
+                    if(user?.name==''){
+                        return{name : "Hello"}
+                    }
                 }
                 console.log(user)
                 return { name: reg }

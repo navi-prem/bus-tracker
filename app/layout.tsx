@@ -1,8 +1,8 @@
 import './globals.css'
-import { Noto_Sans, Nunito } from 'next/font/google'
+import { Exo_2, Noto_Sans, Nunito, Source_Sans_Pro } from 'next/font/google'
 import Provider from '@/components/Provider'
 
-const montserrat= Nunito({weight:"600", subsets: ['latin'] })
+const montserrat=Exo_2({weight:"600", subsets: ['latin'] })
 export const metadata = {
   title: 'CIT BUS',
   description: 'Website for CIT students to make their bus ease',
