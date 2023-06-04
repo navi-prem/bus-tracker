@@ -1,5 +1,4 @@
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+import {prisma} from "@/prisma/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req :NextRequest){
@@ -11,6 +10,9 @@ export async function GET(req :NextRequest){
    const data = await prisma.bus.findUnique({
        where : {
            route : rnum
+       }, include : {
+            user : true ,
+            stops : true
        }
    })
    return NextResponse.json({data})
