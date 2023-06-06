@@ -1,6 +1,6 @@
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import {NextRequest, NextResponse} from 'next/server'
+import {NextRequest} from 'next/server'
 import {prisma} from '@/prisma/prisma'
 
 export const authOptions: NextAuthOptions = {
@@ -24,12 +24,12 @@ export const authOptions: NextAuthOptions = {
                 }else if ( user.pass !== pass ) {
                     throw new Error('Invalid Password')
                 }else{
-                    if(user?.name==''){
-                        return{name : "Hello"}
-                    }
+                    let obj = { name: reg }
+                    obj.email = {}
+                    if ( user?.name === '' ) obj.email.inc = 1
+                    else obj.email.inc = 0
+                    return obj
                 }
-                console.log(user)
-                return { name: reg }
             }
         })
     ],

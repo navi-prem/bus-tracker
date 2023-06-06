@@ -3,7 +3,7 @@ import axios from "axios"
 import {signOut, useSession} from "next-auth/react"
 import {useEffect, useState} from "react"
 import { usePathname, useRouter } from "next/navigation"
-import LogoutIcon from '@mui/icons-material/Logout';
+import LogoutIcon from '@mui/icons-material/Logout'
 
 const Home = () => {
     const pathname = usePathname()
@@ -16,8 +16,7 @@ const Home = () => {
         }
     })
 
-    useEffect(() => {
-    }, [status])
+    console.log(session)
 
     const[name,setName] = useState("")
     const[branch,setBranch] = useState("")
@@ -34,7 +33,7 @@ const Home = () => {
         setLocation("")
     }
 
-    return(<>
+    if ( session?.user?.email.inc == 1 ) return(<>
         <span className="fixed top-0 right-0 m-5 text-white">
         <button onClick={()=>signOut()}>
             <LogoutIcon/>
@@ -67,6 +66,11 @@ const Home = () => {
         </form>
         </div>
     </>)
+    else return (
+            <div className="flex items-center justify-center w-full h-full">
+                <pre className="text-[#e8bf07] text-xl">You  have  already  filled  out  this  form</pre>
+            </div>
+        )
 }
 
 export default Home

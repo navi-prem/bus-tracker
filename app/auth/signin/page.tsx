@@ -3,6 +3,8 @@ import {useEffect, useState} from "react"
 import { signIn, useSession } from 'next-auth/react'
 import {useRouter, useSearchParams} from "next/navigation"
 import ErrorIcon from '@mui/icons-material/Error';
+import PersonIcon from '@mui/icons-material/Person';
+import LockIcon from '@mui/icons-material/Lock';
 
 const Home = () => {
     const searchParams = useSearchParams()
@@ -27,14 +29,19 @@ const Home = () => {
         setLoading(true)
         setUerror(false)
         setPerror(false)
-        const res = await signIn('credentials', {
-            reg, pass, redirect: false
-        })
-        console.log(res)
-        if(res?.error == 'Invalid User Name'){
+        if(reg=='') {
             setUerror(true)
-        }else if(res?.error == 'Invalid Password'){
+        }else if (pass==''){
             setPerror(true)
+        }else{
+            const res = await signIn('credentials', {
+                reg, pass, redirect: false
+            })
+            if(res?.error == 'Invalid User Name'){
+                setUerror(true)
+            }else if(res?.error == 'Invalid Password'){
+                setPerror(true)
+            }
         }
         setLoading(false)
     }
@@ -45,12 +52,12 @@ const Home = () => {
                 <div>
                     <div className="my-2 text-2xl text-white">Welcome to CIT BUS</div>
                     <div className="mb-8 text-[#b1b3b6]">Sign in to your account</div>
-
                     <label className="text-[0.9rem] text-[#b6b3b1]">Registeration Number
                         <br/>
+                        <PersonIcon/>
                         <input onChange={e => setReg(e.target.value)}
                         placeholder="Your Registeration number"
-                        className={`my-2 text-[1 rem] h-10 w-11/12 text-white border
+                        className={`m-2 text-[1 rem] h-10 w-[80%] text-white border
                         ${ uerror?'border-[#822025]':'border-[#3e3e3e]'}
                         ${ uerror?'bg-[#1f1315]':'bg-[#222222]'}
                         rounded placeholder:text-[#504e4b] p-2`}
@@ -61,9 +68,10 @@ const Home = () => {
                     <br/>
                     <label className="text-[0.9rem] text-[#b6b3b1]">Password
                         <br/>
+                        <LockIcon/>
                         <input onChange={e => setPass(e.target.value)}
                         placeholder="Password"
-                        className={`my-3 text-[1 rem] h-10 w-11/12 text-white border 
+                        className={`m-2 text-[1 rem] h-10 w-[80%] text-white border 
                         ${ perror?'border-[#822025]':'border-[#3e3e3e]'}
                         ${ perror?'bg-[#1f1315]':'bg-[#222222]'}
                         rounded placeholder:text-[#504e4b] p-2 transition-all`}
