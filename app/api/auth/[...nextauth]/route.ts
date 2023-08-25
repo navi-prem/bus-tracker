@@ -1,7 +1,7 @@
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import {NextRequest} from 'next/server'
-import {prisma} from '@/prisma/prisma'
+import prisma from '@/prisma/prisma'
 
 export const authOptions: NextAuthOptions = {
     session: {

@@ -9,7 +9,7 @@ const Home = () => {
     const pathname = usePathname()
     const router = useRouter()
 
-    const { data: session, status } = useSession({
+    const { data: session } = useSession<any>({
         required: true,
         onUnauthenticated() {
             router.push(`auth/signin?callbackUrl=${encodeURIComponent(pathname)}`)
@@ -18,13 +18,25 @@ const Home = () => {
 
     console.log(session)
 
-    const[name,setName] = useState("")
-    const[branch,setBranch] = useState("")
-    const[location,setLocation] = useState("")
+    const[name,setName] = useState<any>("")
+    const[branch,setBranch] = useState<any>("")
+    const[location,setLocation] = useState<any>("")
+    const[filled,setFilled] = useState<any>(false)
 
-    const submit =  async (e) => {
+    useEffect( ()=>{
+        //@ts-ignore
+        if(session.user.email.inc === 0){
+            setFilled(true)
+        }else{
+            setFilled(false)
+        }
+    }
+    ,[session])
+
+    const submit =  async (e:any) => {
         e.preventDefault()
         const {data} = await axios.post('/api/details',{
+            //@ts-ignore
             reg: session.user?.name, name, branch, location
         })
         console.log(data)
@@ -33,7 +45,7 @@ const Home = () => {
         setLocation("")
     }
 
-    if ( session?.user?.email.inc == 1 ) return(<>
+    if (!(filled)) return(<>
         <span className="fixed top-0 right-0 m-5 text-white">
         <button onClick={()=>signOut()}>
             <LogoutIcon/>
@@ -66,11 +78,11 @@ const Home = () => {
         </form>
         </div>
     </>)
-    else return (
-            <div className="flex items-center justify-center w-full h-full">
-                <pre className="text-[#e8bf07] text-xl">You  have  already  filled  out  this  form</pre>
-            </div>
-        )
+    else return(<>
+        <div className="flex justify-center items-center w-full h-full text-[#b6b3b1] text-3xl">
+        You have already filled the form contact Transport Incharge to edit your details
+        </div>
+    </>);
 }
 
 export default Home
